@@ -18,23 +18,31 @@ router.get('/api/menu', (req, res, next) => {
     Burgers.find({})
         .then(burgers => {
             items.burgers = burgers
+            
+            for (let i = 0; i < items.burgers.length; i++) {
+                menu.burgers[i] = {}
+                menu.burgers[i].name = items.burgers[i].name
+                menu.burgers[i].price = items.burgers[i].price
+            }
             Drinks.find({})
                 .then(drinks => {
                     items.drinks = drinks
+                
+                    for (let i = 0; i < items.drinks.length; i++) {
+                        menu.drinks[i] = {}
+                        menu.drinks[i].name = items.drinks[i].name
+                        menu.drinks[i].sizes = items.drinks[i].sizes
+
+                    }
                     Sides.find({})
                         .then(sides => {
                             items.sides = sides
-                            for (const key in items) {
-                                const category = items[key];
-                                for (let i = 0; i < key.length; i++) {
-                                    menu[key][i] = category.name
-                                    menu[key][i] = category.price
-
-                                }
-
-
+                    
+                            for (let i = 0; i < items.sides.length; i++) {
+                                menu.sides[i] = {}
+                                menu.sides[i].name = items.sides[i].name
+                                menu.sides[i].price = items.sides[i].price
                             }
-
                             res.send(menu)
                         })
                         .catch(err => res.status(400).send(err))
